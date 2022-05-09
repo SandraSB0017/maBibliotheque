@@ -1,0 +1,29 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Home{% endblock %}
+
+{% block body %}
+
+    <h2>Les livres </h2>
+
+
+
+<div class="container-sm">
+
+
+        {% for livre in livres  %}
+
+
+
+               <article>
+                   <a href="{{ path('livre_detail', {'id': livre.id}) }}" >
+                       <img src="{{ livre.photo }}" alt="{{ livre.titre }}">{{ livre.auteur.nom}}
+                   </a>
+               </article>
+
+        {% endfor %}
+
+</div>
+
+
+{% endblock %}

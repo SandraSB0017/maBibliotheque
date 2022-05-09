@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} detail livre{% endblock %}
+
+{% block body %}
+
+    <h2>{{ livre.titre}}</h2>
+
+    <div class="container-sm">
+
+      {{ form_start(livreForm) }}
+        {{ form_widget(livreForm) }}
+        <button class="btn btn-primary">Valider</button>
+        {{ form_end(livreForm) }}
+
+    </div>
+
+
+
+{% endblock %}

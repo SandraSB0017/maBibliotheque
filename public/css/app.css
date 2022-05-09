@@ -1,0 +1,8 @@
+.nav_a {
+    color: #fcfbfb;
+    padding-right: 10px;
+    text-decoration: none;
+}
+.nav_a:hover{
+    text-decoration: none;
+}

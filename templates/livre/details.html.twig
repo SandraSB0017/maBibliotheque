@@ -1,0 +1,19 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} detail livre{% endblock %}
+
+{% block body %}
+
+    <h2>{{ livre.titre }}</h2>
+
+    <div class="container-sm">
+
+        <p>{{ livre.auteur.nom }}</p>
+        <p>{{ livre.annee.format('Y') }}</p>
+        <p>{{ livre.resume }}</p>
+
+    </div>
+
+
+
+{% endblock %}

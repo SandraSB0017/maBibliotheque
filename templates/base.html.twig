@@ -14,7 +14,27 @@
 </head>
 <body>
 
-hello
+    <header class="p-3 bg-dark text-white">
+        <a href="{{ path('main_home') }}"><h1>Ma biblotheque</h1></a>
+
+       {{ include('inc/nav.html.twig') }}
+
+
+
+    </header>
+
+<main>
+
+    {% block body %} {% endblock %}
+
+</main>
+
+<footer>
+    <div>{{ "now"|date("Y") }}MaBibliothèque</div>
+</footer>
+
+
+
 
 </body>
 </html>

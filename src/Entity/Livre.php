@@ -43,6 +43,23 @@ class Livre
      */
     private $auteur;
 
+    /**
+     * @ORM\Column(type="string", length=50)
+     */
+    private $proprietaire;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $photo;
+
+    /**
+     * @ORM\Column(type="date", nullable=true)
+     */
+    private $dateAjout;
+
+
+
     public function getId(): ?int
     {
         return $this->id;
@@ -107,4 +124,43 @@ class Livre
 
         return $this;
     }
+
+    public function getProprietaire(): ?string
+    {
+        return $this->proprietaire;
+    }
+
+    public function setProprietaire(string $proprietaire): self
+    {
+        $this->proprietaire = $proprietaire;
+
+        return $this;
+    }
+
+    public function getPhoto(): ?string
+    {
+        return $this->photo;
+    }
+
+    public function setPhoto(?string $photo): self
+    {
+        $this->photo = $photo;
+
+        return $this;
+    }
+
+    public function getDateAjout(): ?\DateTimeInterface
+    {
+        return $this->dateAjout;
+    }
+
+    public function setDateAjout(?\DateTimeInterface $dateAjout): self
+    {
+        $this->dateAjout = $dateAjout;
+
+        return $this;
+    }
+
+
+
 }
