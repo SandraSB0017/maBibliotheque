@@ -17,7 +17,7 @@
 
                <article>
                    <a href="{{ path('livre_detail', {'id': livre.id}) }}" >
-                       <img src="{{ livre.photo }}" alt="{{ livre.titre }}">{{ livre.auteur.nom}}
+                       <img src="{{ asset('images/' ~livre.photo)}}" alt="{{ livre.titre }}">{{ livre.auteur.nom}}
                    </a>
                </article>
 

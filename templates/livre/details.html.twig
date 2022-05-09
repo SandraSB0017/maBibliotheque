@@ -12,6 +12,8 @@
         <p>{{ livre.annee.format('Y') }}</p>
         <p>{{ livre.resume }}</p>
 
+        <a href="{{ path('livre_update', {'id': livre.id}) }}">Modifier</a>
+
     </div>
 
 
