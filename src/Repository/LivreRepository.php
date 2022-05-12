@@ -2,6 +2,8 @@
 
 namespace App\Repository;
 
+
+use App\Data\SearchData;
 use App\Entity\Livre;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\OptimisticLockException;
@@ -46,6 +48,64 @@ class LivreRepository extends ServiceEntityRepository
             $this->_em->flush();
         }
     }
+
+    /**
+     * @param SearchData $search $
+     * @return array*
+     */
+
+
+
+public function searchLivre(SearchData $search):array
+
+{
+    $query = $this
+        ->createQueryBuilder('l')
+        ->select('a', 'l')
+        ->join('l.auteur', 'a');
+
+
+    if (!empty($search->q)) {
+        $query = $query
+            ->andWhere('l.titre LIKE :q')
+            ->setParameter('q', "%{$search->q}%");
+    }
+
+    if (!empty($search->auteur)) {
+        $query = $query
+            ->andWhere('l.auteur = :auteur')
+            ->setParameter('auteur', $search->auteur);
+    }
+
+    if (!empty($search->proprietaire)) {
+        $query = $query
+            ->andWhere('l.proprietaire = :proprietaire')
+            ->setParameter('proprietaire', $search->proprietaire);
+    }
+
+    if (!empty($search->type)) {
+        $query = $query
+            ->andWhere('l.type = :type')
+            ->setParameter('type', $search->type);
+    }
+
+    if (!empty($search->dateDebut)) {
+        $query = $query
+            ->andWhere('l.annee >= :dateDebut')
+            ->setParameter('dateDebut', $search->dateDebut);
+    }
+
+    if (!empty($search->dateFin)) {
+        $query = $query
+            ->andWhere('l.annee <= :dateFin')
+            ->setParameter('dateFin', $search->dateFin);
+    }
+
+    return $query->getQuery()->getResult();
+}
+
+
+
 
     // /**
     //  * @return Livre[] Returns an array of Livre objects

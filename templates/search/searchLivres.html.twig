@@ -1,0 +1,50 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello SearchController!{% endblock %}
+
+{% block body %}
+
+<div class="container-sm mt-4">
+
+    {{ form_start(searchLivreForm)}}
+    {{ form_row(searchLivreForm.q) }}
+    {{ form_row(searchLivreForm.auteur) }}
+    {{ form_row(searchLivreForm.type) }}
+    {{ form_row(searchLivreForm.proprietaire) }}
+    <div class="row no-gutters align-items-center text-center">
+        <div class="col">
+            {{ form_row(searchLivreForm.dateDebut) }}
+        </div>
+        <div class="col">
+            {{ form_row(searchLivreForm.dateFin) }}
+        </div>
+
+    </div>
+    <button class="btn btn-secondary mb-4" type="submit">Recherche</button>
+    {{ form_end(searchLivreForm)}}
+
+</div>
+
+<div class="container">
+    <div class="container-sm livres-list">
+    {% for livre in livres  %}
+        <div class="card p-2" style="width: 10rem ;">
+            {% if livre.photo %}
+                <img src="{{ asset('images/' ~livre.photo)}}" class="card-img-top img_livre" alt="{{livre.titre}}">
+            {% else %}
+                <img src="{{ asset('images/default.jpg.jpg') }}" class="card-img-top img_livre" alt="{{ livre.titre }}">
+            {% endif %}
+            <div class="card-body">
+                <h5 class="card-title">{{ livre.titre }}</h5>
+
+                <a href="{{ path('livre_detail', {'id': livre.id}) }}" class="btn btn-primary">+ d'infos</a>
+            </div>
+        </div>
+
+    {% endfor %}
+
+    </div>
+
+</div>
+
+{% endblock %}

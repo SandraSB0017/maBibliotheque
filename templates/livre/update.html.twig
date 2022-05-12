@@ -11,6 +11,7 @@
       {{ form_start(livreForm) }}
         {{ form_widget(livreForm) }}
         <button class="btn btn-primary">Valider</button>
+        <a class = "btn btn-danger" href="{{ path('livre_remove', {'id': livre.id}) }}">Supprimer</a>
         {{ form_end(livreForm) }}
 
     </div>

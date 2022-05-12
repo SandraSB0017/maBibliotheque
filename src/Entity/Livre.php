@@ -23,13 +23,13 @@ class Livre
     private $titre;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
+     * @ORM\Column(type="string", length=1500, nullable=true)
      */
     private $resume;
 
 
     /**
-     * @ORM\Column(type="date", nullable=true)
+     * @ORM\Column(type="integer", nullable=true)
      */
     private $annee;
 
@@ -39,7 +39,7 @@ class Livre
     private $type;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Auteur::class, inversedBy="livre")
+     * @ORM\ManyToOne(targetEntity=Auteur::class, inversedBy="livre", cascade={"persist", "remove"})
      */
     private $auteur;
 
@@ -57,6 +57,10 @@ class Livre
      * @ORM\Column(type="date", nullable=true)
      */
     private $dateAjout;
+
+
+
+
 
 
 
@@ -89,17 +93,23 @@ class Livre
         return $this;
     }
 
-    public function getAnnee(): ?\DateTimeInterface
+    /**
+     * @return mixed
+     */
+    public function getAnnee()
     {
         return $this->annee;
     }
 
-    public function setAnnee(?\DateTimeInterface $annee): self
+    /**
+     * @param mixed $annee
+     */
+    public function setAnnee($annee): void
     {
         $this->annee = $annee;
-
-        return $this;
     }
+
+
 
     public function getType(): ?string
     {

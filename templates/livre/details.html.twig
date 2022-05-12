@@ -4,17 +4,52 @@
 
 {% block body %}
 
-    <h2>{{ livre.titre }}</h2>
 
-    <div class="container-sm">
 
-        <p>{{ livre.auteur.nom }}</p>
-        <p>{{ livre.annee.format('Y') }}</p>
-        <p>{{ livre.resume }}</p>
 
-        <a href="{{ path('livre_update', {'id': livre.id}) }}">Modifier</a>
+    <section class="dark">
+        <div class="container py-4">
+            <h1 class="h1 text-center" id="pageHeaderTitle">{{ livre.titre }}</h1>
 
-    </div>
+
+    <article class="postcard dark blue">
+
+            {% if livre.photo %}
+                <img class="postcard__img" src="{{ asset('images/' ~livre.photo)}}" alt="Image Title" />
+            {% else %}
+                <img src="{{ asset('images/default.jpg.jpg') }}" class="postcard__img" alt="{{ livre.titre }}">
+            {% endif %}
+
+
+        <div class="postcard__text">
+            <h1 class="postcard__title blue"><a href="#">{{ livre.auteur.nom }} {{ livre.auteur.prenom }}</a></h1>
+            <div class="postcard__subtitle small">
+                <p>
+                    publié en {{ livre.annee }}
+                </p>
+            </div>
+            <div class="postcard__bar"></div>
+            <div class="postcard__preview-txt">{{livre.resume}}</div>
+            <ul class="postcard__tagbox">
+                <li class="tag__item">
+                    <a href=""><i class="fas fa-clock mr-2"></i>{{ livre.proprietaire }}</a>
+                </li>
+
+                <li class="tag__item">
+                    <a href="{{ path('main_home') }}"><i class="fas fa-clock mr-2"></i>Home</a>
+                </li>
+                <li class="tag__item play blue">
+                    <a href="{{ path('livre_update', {'id': livre.id}) }}"><i class="fas fa-play mr-2"></i>Modifier</a>
+                </li>
+            </ul>
+        </div>
+    </article>
+        </div>
+    </section>
+
+
+
+
 
 
 

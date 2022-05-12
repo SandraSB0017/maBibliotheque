@@ -7,23 +7,26 @@
     <h2>Les livres </h2>
 
 
+    <a class="btn btn-danger" href="{{ path('search') }}">Recherche</a>
 
-<div class="container-sm">
 
-
+    <div class="container-sm livres-list">
         {% for livre in livres  %}
 
+    <div class="card p-2" style="width: 10rem ;">
+        {% if livre.photo %}
+        <img src="{{ asset('images/' ~livre.photo)}}" class="card-img-top img_livre" alt="{{livre.titre}}">
+        {% else %}
+        <img src="{{ asset('images/default.jpg.jpg') }}" class="card-img-top img_livre" alt="{{ livre.titre }}">
+        {% endif %}
+        <div class="card-body">
+            <h5 class="card-title">{{ livre.titre }}</h5>
 
-
-               <article>
-                   <a href="{{ path('livre_detail', {'id': livre.id}) }}" >
-                       <img src="{{ asset('images/' ~livre.photo)}}" alt="{{ livre.titre }}">{{ livre.auteur.nom}}
-                   </a>
-               </article>
-
+            <a href="{{ path('livre_detail', {'id': livre.id}) }}" class="btn btn-primary">+ d'infos</a>
+        </div>
+    </div>
         {% endfor %}
-
-</div>
+    </div>
 
 
 {% endblock %}
