@@ -2,8 +2,13 @@
 
 namespace App\Entity;
 
+use App\Entity\User;
 use App\Repository\LivreRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use phpDocumentor\Reflection\Types\Boolean;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\LivreRepository", repositoryClass=LivreRepository::class)
@@ -57,6 +62,16 @@ class Livre
      * @ORM\Column(type="date", nullable=true)
      */
     private $dateAjout;
+
+    /**
+     * @ORM\OneToMany(targetEntity=PostLike::class, mappedBy="livre", cascade={"persist", "remove"})
+     */
+    private $likes;
+
+    public function __construct()
+    {
+        $this->likes = new ArrayCollection();
+    }
 
 
 
@@ -170,6 +185,50 @@ class Livre
 
         return $this;
     }
+
+    /**
+     * @return Collection<int, PostLike>
+     */
+    public function getLikes(): Collection
+    {
+        return $this->likes;
+    }
+
+    public function addLike(PostLike $like): self
+    {
+        if (!$this->likes->contains($like)) {
+            $this->likes[] = $like;
+            $like->setLivre($this);
+        }
+
+        return $this;
+    }
+
+    public function removeLike(PostLike $like): self
+    {
+        if ($this->likes->removeElement($like)) {
+            // set the owning side to null (unless already changed)
+            if ($like->getLivre() === $this) {
+                $like->setLivre(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @param UserInterface $user
+     * @return bool
+     */
+    public function isLikedByUser(UserInterface $user): bool
+    {
+        foreach ($this->likes as $like){
+            if($like->getUser() ===$user) return true;
+        }
+        return false;
+
+    }
+
 
 
 

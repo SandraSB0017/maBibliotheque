@@ -4,10 +4,12 @@ namespace App\Controller;
 
 use App\Entity\Auteur;
 use App\Entity\Livre;
+use App\Entity\PostLike;
 use App\Form\AuteurType;
 use App\Form\LivreType;
 use App\Repository\AuteurRepository;
 use App\Repository\LivreRepository;
+use App\Repository\PostLikeRepository;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -143,6 +145,53 @@ class LivreController extends AbstractController
 
 
         $entityManager->flush();
+    }
+
+
+    /**
+     *
+     * Permet de liker ou unliker un article
+     *
+     * @Route("/livre/{id}/like", name="livre_like")
+     *
+     */
+
+    public function like(Livre $livre, EntityManagerInterface $entityManager, PostLikeRepository $postLikeRepository) : Response
+    {
+            $user=$this->getUser();
+
+            if(!$user) return $this->json([
+                'code'=>403,
+                'message'=> "Unauthorize"
+            ],403);
+
+            if($livre->isLikedByUser($user)){
+                $like = $postLikeRepository->findOneBy([
+                    'livre'=>$livre,
+                    'user' =>$user
+                ]);
+
+                $entityManager->remove($like);
+                $entityManager->flush();
+
+                return $this->json([
+                    'code'=> 200,
+                    'message' => 'c\'est parfait',
+                    'likes'=> $postLikeRepository->count(['livre' =>$livre])
+                ],200);
+            }
+             $like = new PostLike();
+            $like->setLivre($livre)
+                ->setUser($user);
+            $entityManager->persist($like);
+            $entityManager->flush();
+
+
+            return $this->json([
+                'code'=>200,
+                'message' => 'like bien ajouté',
+                'likes' => $postLikeRepository->count(['livre' => $livre])
+            ],200);
     }
 
 }

@@ -9,11 +9,11 @@
 
     <a class="btn btn-danger" href="{{ path('search') }}">Recherche</a>
 
-
-    <div class="container-sm livres-list">
+<div class="container-sm">
+    <div class="row">
         {% for livre in livres  %}
 
-    <div class="card p-2" style="width: 10rem ;">
+    <div class="card p-2 col-3 m-3 align-items-center" style="width: 10rem ;">
         {% if livre.photo %}
         <img src="{{ asset('images/' ~livre.photo)}}" class="card-img-top img_livre" alt="{{livre.titre}}">
         {% else %}
@@ -22,11 +22,59 @@
         <div class="card-body">
             <h5 class="card-title">{{ livre.titre }}</h5>
 
-            <a href="{{ path('livre_detail', {'id': livre.id}) }}" class="btn btn-primary">+ d'infos</a>
+
+            <a href="{{ path('livre_detail', {'id': livre.id}) }}" class="btn btn-card">+ d'infos</a>
+            <a href="{{ path('livre_like', {'id': livre.id}) }}" class="btn btn-link js-like">
+                {% if app.user and livre.isLikedByUser(app.user) %}
+                    <i class="fas fa-thumbs-up"></i>
+                {% else %}
+                    <i class="far fa-thumbs-up"></i>
+                    {% endif %}
+
+                <span class="js-likes">{{ livre.likes | length }}</span>
+                <span class="js-label">j'aime</span>
+
+            </a>
         </div>
     </div>
         {% endfor %}
     </div>
+</div>
 
+{% endblock %}
+{% block javascripts %}
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script>
 
+        function onClickBtnLike(event){
+            event.preventDefault();
+
+            const url = this.href; /*this = le a sur lequel je clique*/
+            const spanCount = this.querySelector('span.js-likes');
+            const icone = this.querySelector('i');
+
+            axios.get(url).then(function (response) {
+                spanCount.textContent = response.data.likes;
+
+                if(icone.classList.contains('fas'))
+                {
+                    icone.classList.replace('fas','far');
+                }
+                else {
+                    icone.classList.replace('far','fas');
+                }
+            }
+            ).catch(function (error){
+                if(error.response.status ===403) {
+                    window.alert("Vous ne pouvez pas liker un livre si vous n'etes pas connecté !")
+                }
+            });
+
+        }
+
+        document.querySelectorAll('a.js-like').forEach(function (link){
+            link.addEventListener('click', onClickBtnLike);
+        })
+
+    </script>
 {% endblock %}
