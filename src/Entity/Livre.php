@@ -73,12 +73,6 @@ class Livre
         $this->likes = new ArrayCollection();
     }
 
-
-
-
-
-
-
     public function getId(): ?int
     {
         return $this->id;
